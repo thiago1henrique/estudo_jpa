@@ -6,6 +6,7 @@ import io.github.thiago1henrique.libaryapi.model.Livro;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -32,12 +33,83 @@ class LivroRepositoryTest {
 
         Autor autor = autorRepository.findById(UUID
                         .fromString("f4dfc777-33ce-4118-8e3c-cd7606603e8c"))
-                        .orElse(null);
+                .orElse(null);
+
+        livro.setAutor(new Autor());
+
+        repository.save(livro);
+    }
+
+    @Test
+    void salvarAutorELivroTest() {
+        Livro livro = new Livro();
+
+        livro.setIsbn("1234567890");
+        livro.setPreco(BigDecimal.valueOf(100.00));
+        livro.setGenero(GeneroLivro.BIOGRAFIA);
+        livro.setTitulo("Thiago Henrique");
+        livro.setDataPublicacao(LocalDate.of(2000, 1, 13));
+
+
+        repository.save(livro);
+
+        Autor autor = new Autor();
+        autor.setNome("Thiago Henrique");
+        autor.setNacionalidade("Brasileira");
+        autor.setDataNascimento(LocalDate.of(2001, 2, 13));
 
         livro.setAutor(autor);
 
         repository.save(livro);
-
     }
 
+    @Test
+    void salvarCascadeTest() {
+        Livro livro = new Livro();
+
+        livro.setIsbn("1234567890");
+        livro.setPreco(BigDecimal.valueOf(100.00));
+        livro.setGenero(GeneroLivro.BIOGRAFIA);
+        livro.setTitulo("Thiago Henrique");
+        livro.setDataPublicacao(LocalDate.of(2000, 1, 13));
+
+        Autor autor = new Autor();
+        autor.setNome("Thiago Henrique");
+        autor.setNacionalidade("Brasileira");
+        autor.setDataNascimento(LocalDate.of(2001, 2, 13));
+
+        livro.setAutor(autor);
+
+        repository.save(livro);
+    }
+
+    @Test
+    void atualizarAutorDoLivroTest() {
+        UUID id = UUID.fromString("c0b30d24-944a-4688-85a6-c18aa78e4481");
+        var livroParaAtualizar = repository.findById(id).orElse(null);
+
+        UUID idAutor = UUID.fromString("f4dfc777-33ce-4118-8e3c-cd7606603e8c");
+        Autor autor = autorRepository.findById(idAutor).orElse(null);
+
+        livroParaAtualizar.setAutor(autor);
+
+        repository.save(livroParaAtualizar);
+    }
+
+    @Test
+    void deletarTest() {
+        UUID id = UUID.fromString("c0b30d24-944a-4688-85a6-c18aa78e4481");
+        repository.deleteById(id);
+    }
+
+    @Test
+    @Transactional
+    void buscarLivroTest() {
+        UUID id = UUID.fromString("c0b30d24-944a-4688-85a6-c18aa78e4481");
+        Livro livro = repository.findById(id).orElse(null);
+        System.out.println("Livro: ");
+        System.out.println(livro.getTitulo());
+        System.out.println("Autor: ");
+        System.out.println(livro.getAutor().getNome());
+    }
 }

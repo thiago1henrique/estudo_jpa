@@ -2,8 +2,6 @@ package io.github.thiago1henrique.libaryapi.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -28,7 +26,6 @@ public class Autor {
     @Column(name = "nacionalidade", length = 50, nullable = false)
     private String nacionalidade;
 
-    //@OneToMany(mappedBy = "autor")
-    @Transient
+    @OneToMany(mappedBy = "autor")
     private List<Livro> livros;
 }
