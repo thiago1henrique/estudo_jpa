@@ -25,7 +25,7 @@ class LivroRepositoryTest {
     void salvarTest() {
         Livro livro = new Livro();
 
-        livro.setIsbn("1234567890");
+        livro.setIsdn("1234567890");
         livro.setPreco(BigDecimal.valueOf(100.00));
         livro.setGenero(GeneroLivro.BIOGRAFIA);
         livro.setTitulo("Thiago Henrique");
@@ -44,7 +44,7 @@ class LivroRepositoryTest {
     void salvarAutorELivroTest() {
         Livro livro = new Livro();
 
-        livro.setIsbn("1234567890");
+        livro.setIsdn("1234567890");
         livro.setPreco(BigDecimal.valueOf(100.00));
         livro.setGenero(GeneroLivro.BIOGRAFIA);
         livro.setTitulo("Thiago Henrique");
@@ -67,7 +67,7 @@ class LivroRepositoryTest {
     void salvarCascadeTest() {
         Livro livro = new Livro();
 
-        livro.setIsbn("1234567890");
+        livro.setIsdn("1234567890");
         livro.setPreco(BigDecimal.valueOf(100.00));
         livro.setGenero(GeneroLivro.BIOGRAFIA);
         livro.setTitulo("Thiago Henrique");
