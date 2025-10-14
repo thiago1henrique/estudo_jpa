@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  librarydb:
+    image: postgres:16.3
+    container_name: librarydb
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: library
+    ports:
+      - "5432:5432"
+    networks:
+      - library-network
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "15432:80"
+    networks:
+      - library-network
+    depends_on:
+      - librarydb
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+
+networks:
+  library-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  pgadmin_data:
+
+#para subir use o comando: docker-compose up -d
