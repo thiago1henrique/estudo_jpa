@@ -6,6 +6,7 @@ import io.github.thiago1henrique.libaryapi.model.Livro;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -35,14 +36,16 @@ public class AutorRepositoryTest {
     }
 
     @Test
+    @Transactional
     public void atualizarTest() {
-        var id = UUID.fromString("10abc6c4-3eb8-4954-91b2-032c83a47e65");
+        var id = UUID.fromString("1d536e7d-499a-42a4-a5c9-8e484020f137");
         Optional<Autor> possivelAutor = repository.findById(id);
         if(possivelAutor.isPresent()) {
             Autor autorEncontrado = possivelAutor.get();
             System.out.print("Dados do autor: ");
             System.out.println(autorEncontrado);
 
+            autorEncontrado.setNome("Thiago Henrique");
             autorEncontrado.setDataNascimento(LocalDate.of(2000, 1, 12));
 
             repository.save(autorEncontrado);
@@ -50,6 +53,7 @@ public class AutorRepositoryTest {
     }
 
     @Test
+    @Transactional
     public void listarTest() {
         List<Autor> lista = repository.findAll();
         lista.forEach(System.out::println);
@@ -62,7 +66,7 @@ public class AutorRepositoryTest {
 
     @Test
     public void deletarPorIdTest() {
-        var id = UUID.fromString("10abc6c4-3eb8-4954-91b2-032c83a47e65");
+        var id = UUID.fromString("1d536e7d-499a-42a4-a5c9-8e484020f137");
         repository.deleteById(id);
     }
 
